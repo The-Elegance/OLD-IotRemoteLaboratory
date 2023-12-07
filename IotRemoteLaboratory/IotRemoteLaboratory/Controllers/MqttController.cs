@@ -1,4 +1,4 @@
-﻿using S.Mqtt;
+﻿using IotRemoteLaboratory.Mqtt;
 
 namespace IotRemoteLaboratory.Controllers
 {
