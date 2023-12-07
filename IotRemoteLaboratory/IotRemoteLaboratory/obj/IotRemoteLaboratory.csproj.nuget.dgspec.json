@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "N:\\IotRemoteLab\\IotRemoteLaboratory\\IotRemoteLaboratory\\IotRemoteLaboratory.csproj": {}
+    "N:\\IotRemoteLaboratory\\IotRemoteLaboratory\\IotRemoteLaboratory\\IotRemoteLaboratory.csproj": {}
   },
   "projects": {
-    "N:\\IotRemoteLab\\IotRemoteLaboratory\\IotRemoteLaboratory\\IotRemoteLaboratory.csproj": {
+    "N:\\IotRemoteLaboratory\\IotRemoteLaboratory\\IotRemoteLaboratory\\IotRemoteLaboratory.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "N:\\IotRemoteLab\\IotRemoteLaboratory\\IotRemoteLaboratory\\IotRemoteLaboratory.csproj",
+        "projectUniqueName": "N:\\IotRemoteLaboratory\\IotRemoteLaboratory\\IotRemoteLaboratory\\IotRemoteLaboratory.csproj",
         "projectName": "IotRemoteLaboratory",
-        "projectPath": "N:\\IotRemoteLab\\IotRemoteLaboratory\\IotRemoteLaboratory\\IotRemoteLaboratory.csproj",
+        "projectPath": "N:\\IotRemoteLaboratory\\IotRemoteLaboratory\\IotRemoteLaboratory\\IotRemoteLaboratory.csproj",
         "packagesPath": "C:\\Users\\HelJo\\.nuget\\packages\\",
-        "outputPath": "N:\\IotRemoteLab\\IotRemoteLaboratory\\IotRemoteLaboratory\\obj\\",
+        "outputPath": "N:\\IotRemoteLaboratory\\IotRemoteLaboratory\\IotRemoteLaboratory\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -44,6 +44,12 @@
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
+          "dependencies": {
+            "MQTTnet": {
+              "target": "Package",
+              "version": "[3.1.2, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",

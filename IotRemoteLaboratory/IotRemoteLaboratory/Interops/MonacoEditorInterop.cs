@@ -53,7 +53,6 @@ namespace IotRemoteLaboratory.Interops
         [JSInvokable]
         public void OnCodeChanged(string newValue)
         {
-            _console.WriteLine("OnCodeChanged executed");
             _codeChangedEvent?.Invoke(newValue);
         }
 
