@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IotRemoteLaboratory", "IotRemoteLaboratory\IotRemoteLaboratory.csproj", "{BA97639D-88B5-44D3-BAE9-13D5BE00A7B4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IotRemoteLaboratory", "IotRemoteLaboratory\IotRemoteLaboratory.csproj", "{BA97639D-88B5-44D3-BAE9-13D5BE00A7B4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
