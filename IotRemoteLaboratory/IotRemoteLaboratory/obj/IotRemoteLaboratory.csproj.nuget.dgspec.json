@@ -1,24 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "N:\\IotRemoteLaboratory\\IotRemoteLaboratory\\IotRemoteLaboratory\\IotRemoteLaboratory.csproj": {}
+    "C:\\Users\\Елизавета Давыдова\\Source\\Repos\\IotRemoteLaboratory\\IotRemoteLaboratory\\IotRemoteLaboratory\\IotRemoteLaboratory.csproj": {}
   },
   "projects": {
-    "N:\\IotRemoteLaboratory\\IotRemoteLaboratory\\IotRemoteLaboratory\\IotRemoteLaboratory.csproj": {
+    "C:\\Users\\Елизавета Давыдова\\Source\\Repos\\IotRemoteLaboratory\\IotRemoteLaboratory\\IotRemoteLaboratory\\IotRemoteLaboratory.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "N:\\IotRemoteLaboratory\\IotRemoteLaboratory\\IotRemoteLaboratory\\IotRemoteLaboratory.csproj",
+        "projectUniqueName": "C:\\Users\\Елизавета Давыдова\\Source\\Repos\\IotRemoteLaboratory\\IotRemoteLaboratory\\IotRemoteLaboratory\\IotRemoteLaboratory.csproj",
         "projectName": "IotRemoteLaboratory",
-        "projectPath": "N:\\IotRemoteLaboratory\\IotRemoteLaboratory\\IotRemoteLaboratory\\IotRemoteLaboratory.csproj",
-        "packagesPath": "C:\\Users\\HelJo\\.nuget\\packages\\",
-        "outputPath": "N:\\IotRemoteLaboratory\\IotRemoteLaboratory\\IotRemoteLaboratory\\obj\\",
+        "projectPath": "C:\\Users\\Елизавета Давыдова\\Source\\Repos\\IotRemoteLaboratory\\IotRemoteLaboratory\\IotRemoteLaboratory\\IotRemoteLaboratory.csproj",
+        "packagesPath": "C:\\Users\\Елизавета Давыдова\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Елизавета Давыдова\\Source\\Repos\\IotRemoteLaboratory\\IotRemoteLaboratory\\IotRemoteLaboratory\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\HelJo\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\Елизавета Давыдова\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -26,7 +22,6 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
