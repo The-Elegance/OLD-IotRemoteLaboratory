@@ -1,0 +1,29 @@
+﻿@using IotRemoteLaboratory.Interops
+@using IotRemoteLaboratory.Models
+@rendermode InteractiveServer
+
+<div id="container" style="width:1024px;height:400px;border:1px solid grey"></div>
+<textarea rows="10" cols="120">@output</textarea>
+
+@code {
+    private string output = string.Empty;
+
+    [Inject]
+    public Session Session { get; set; } 
+    [Inject]
+    public MonacoEditorInterop Monaco { get; set; }
+
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        base.OnAfterRender(firstRender);
+        if (firstRender) 
+        {
+            Monaco.Initialize("container", @"Console.WriteLine(""Hello World"");", "csharp", (s) =>
+            {
+                //Publisher.PublishMessageAsync(User.Name, s);
+            });
+        }
+    }
+
+}
