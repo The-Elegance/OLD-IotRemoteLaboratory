@@ -1,10 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "ZzXkeqOFm8xamNTt1Mg2KjkSy1L8B4hkm4eN3sbwxG9q96mCVQeYHNT8NcjCWyRBb1rfF9qD61xFcb9/Gh/AgA==",
+  "dgSpecHash": "3m8undviYpn6fPD0WdGLywMSBaYi7y6nB7/dcljnsHHKJmJ+ERd0RwDrccp3LxMT22M5Tvf7FYWIHwhrQkOMGw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Елизавета Давыдова\\Source\\Repos\\IotRemoteLaboratory\\IotRemoteLaboratory\\IotRemoteLaboratory\\IotRemoteLaboratory.csproj",
+  "projectFilePath": "N:\\IotRemoteLaboratory\\IotRemoteLaboratory\\IotRemoteLaboratory\\IotRemoteLaboratory.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\Елизавета Давыдова\\.nuget\\packages\\mqttnet\\3.1.2\\mqttnet.3.1.2.nupkg.sha512"
+    "C:\\Users\\HelJo\\.nuget\\packages\\mqttnet\\3.1.2\\mqttnet.3.1.2.nupkg.sha512"
   ],
   "logs": []
 }

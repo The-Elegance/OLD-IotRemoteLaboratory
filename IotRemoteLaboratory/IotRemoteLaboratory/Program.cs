@@ -28,6 +28,9 @@ builder.Services.AddScoped<Session>();
 builder.Services.AddScoped<ConsoleWrapper>();
 builder.Services.AddScoped<MonacoEditorInterop>();
 
+//Stand
+builder.Services.AddSingleton<Stand>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

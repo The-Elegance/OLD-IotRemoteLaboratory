@@ -30,12 +30,20 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xDb250cm9sc1xNb25hY29FZGl0b3IucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
+[N:/IotRemoteLaboratory/IotRemoteLaboratory/IotRemoteLaboratory/Components/Controls/Terminal.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xDb250cm9sc1xUZXJtaW5hbC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
 [N:/IotRemoteLaboratory/IotRemoteLaboratory/IotRemoteLaboratory/Components/Pages/Error.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xFcnJvci5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
 [N:/IotRemoteLaboratory/IotRemoteLaboratory/IotRemoteLaboratory/Components/Pages/Home.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xIb21lLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[N:/IotRemoteLaboratory/IotRemoteLaboratory/IotRemoteLaboratory/Components/Pages/Stand.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xTdGFuZC5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
 [N:/IotRemoteLaboratory/IotRemoteLaboratory/IotRemoteLaboratory/Components/Routes.razor]

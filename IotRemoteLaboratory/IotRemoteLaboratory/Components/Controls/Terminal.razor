@@ -1,0 +1,43 @@
+﻿@using System.Collections.Generic;
+@using System;
+@using IotRemoteLaboratory.Models
+@using System.Text.Json
+@using IotRemoteLaboratory.Mqtt
+@rendermode InteractiveServer
+
+<style>
+    .terminal-block {
+        height: 400px;
+        max-height: 400px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+</style>
+
+<div class="terminal-block">
+    @for (var i = 0; i < TerminalContent.Count; i++) {
+        <span>@TerminalContent[i]</span>
+    }
+</div>
+
+@code {
+    [Inject]
+    public Session Session { get; set; }
+
+    public List<string> TerminalContent { get; set; } = new List<string>();
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            Session.MqttController.MessageReceivedEvent += s =>
+            {
+                var pak = JsonSerializer.Deserialize<MqttPackage<string>>(s);
+                TerminalContent.Add(pak.Message);
+                InvokeAsync(StateHasChanged);
+            };
+        }
+        base.OnAfterRender(firstRender);
+    }
+}

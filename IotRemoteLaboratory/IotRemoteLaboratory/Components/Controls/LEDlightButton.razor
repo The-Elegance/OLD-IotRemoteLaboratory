@@ -1,12 +1,46 @@
 ﻿
+@rendermode InteractiveServer
+
 <div class="videoplayer_button">
 	<div class="button_active_indicator_wrapper">
-		<span id="btn_indicator_1" class="button_active_indicator"></span>
-		<button id="btn_1">Кнопка 1</button>
+		<span style="background: @IndecatorColor;" id="btn_indicator_1" class="button_active_indicator"></span>
+		<button id="btn_1" onclick="@IntecatorButton">@Content</button>
 	</div>
 </div>
 
                            
 @code {
+	[Parameter]
+	public string Content { get; set; } = "Кнопка";
 
+	[Parameter]
+	public bool State { get; set; } = false;
+
+	[Parameter]
+	public EventCallback<int> OnClick { get; set; }
+
+	[Parameter]
+	public int Id { get; set; }
+
+	string IndecatorColor = "#585252";
+
+	void IntecatorButton()
+	{
+		State = !State;
+		OnClick.InvokeAsync(Id);
+	}
+
+	void SetIntecatorColor()
+	{
+		if (State)
+			IndecatorColor = "#03c04a";
+		else
+			IndecatorColor = "#585252";
+	}
+
+	protected override void OnParametersSet()
+	{
+		SetIntecatorColor();
+		base.OnParametersSet();
+	}
 }

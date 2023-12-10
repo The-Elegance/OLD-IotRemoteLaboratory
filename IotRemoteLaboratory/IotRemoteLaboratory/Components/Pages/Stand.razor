@@ -1,0 +1,142 @@
+﻿@page "/"
+@using IotRemoteLaboratory.Models
+@using System.Text.Json
+@using IotRemoteLaboratory.Mqtt
+@* @page "/stand" *@
+@rendermode InteractiveServer
+
+<style>
+    .main-block {
+        display: flex;
+        flex-direction: row;
+        width: 100vw;
+    }
+
+    .video-block {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: row;
+    }
+
+    .video-block_player {
+        display: flex;
+        width: 60vh;
+        padding: 16px;
+        justify-content: center;
+        align-items: center;
+        background-color: #303030;
+        border-radius: 5px;
+    }
+
+    .video-block_buttons {
+        align-items: center;
+        row-gap: 8px;
+        margin-left: 32px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .video-terminal-block {
+        display: flex;
+        flex-direction: row;
+        margin-bottom: 16px;
+    }
+
+    .terminal-block {
+        padding: 16px;
+        margin-left: 64px;
+        display: flex;
+        width: 60vh;
+        background: #f5f4f4;
+        border: #e6edf4 solid 1px;
+        border-radius: 3px;
+    }
+</style>
+
+
+<div class="main-block">
+    <div>
+        <div class="video-terminal-block">
+            <div class="video-block">
+                <div class="video-block_player">
+                    <span style="color: white; font-size: 16px; font-weight:600;">В данный момент видеотрансляция неактивна.</span>
+                </div>
+
+                <div class="video-block_buttons">
+@*                     @for (int i = 0; i < stand.Buttons.Count; i++)
+                    {
+                        <IotRemoteLaboratory.Components.Controls.LEDlightButton Id="@i" OnClick="@ButtonClick" Content="@stand.Buttons[i].Content" State="@stand.Buttons[i].IsActive" />
+                    } *@
+                    <IotRemoteLaboratory.Components.Controls.LEDlightButton OnClick="@ButtonClick" State="@ButtonState" />
+                </div>
+
+
+            </div>
+
+            <IotRemoteLaboratory.Components.Controls.Terminal/>
+@*             <div class="terminal-block">
+                <span>Консоль в данный момент не доступна.</span>
+            </div> *@
+        </div>
+
+        <div class="ide-block">
+            <IotRemoteLaboratory.Components.Controls.MonacoEditor OnIdeChanged="@OnIdeTextChanged" />
+        </div>
+    </div>
+</div>
+
+
+@code {
+    [Inject]
+    public Models.Stand stand { get; set; }
+    [Inject]
+    public Session Session { get; set; }
+
+
+    private bool ButtonState = false;
+    private string IdeText = "";
+
+    void OnIdeTextChanged(string newValue)
+    {
+        var pak = new MqttPackage<string>(Session.User, newValue);
+        var jsonStr = JsonSerializer.Serialize(pak);
+
+        Session.MqttController.PublishMessage(jsonStr);    
+    }
+
+    void ButtonClick(int i)
+    {
+        ButtonState = !ButtonState;
+        InvokeAsync(StateHasChanged);
+
+        var pak = new MqttPackage<bool>(Session.User, ButtonState);
+
+        var s = JsonSerializer.Serialize<MqttPackage<bool>>(pak);
+        Session.MqttController.PublishMessage(s);
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            Session.MqttController.MessageReceivedEvent += (s) =>
+            {
+                try
+                {
+                    var obj = JsonSerializer.Deserialize<MqttPackage<bool>>(s);
+                    if (obj.User.Name != Session.User.Name)
+                    {
+                        ButtonState = obj.Message;
+                        InvokeAsync(StateHasChanged);
+                    }
+                }
+                catch
+                {
+                }
+            };
+
+
+        }
+        base.OnAfterRender(firstRender);
+    }
+}
