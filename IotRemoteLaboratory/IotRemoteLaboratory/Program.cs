@@ -1,5 +1,5 @@
+using IotRemoteLaboratory;
 using IotRemoteLaboratory.Components;
-using IotRemoteLaboratory.Controllers;
 using IotRemoteLaboratory.Interops;
 using IotRemoteLaboratory.Models;
 using IotRemoteLaboratory.Mqtt;
@@ -11,10 +11,18 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
 // Mqtt Init
-builder.Services.AddSingleton(new MqttParams("test.mosquitto.org", 1883, "Hel2x"));
+builder.Services.AddSingleton(
+    new MqttParams("test.mosquitto.org", 1883,
+        Topics.TerminalDataFrom,
+        Topics.TerminalDataTo,
+        Topics.LedButtonState,
+        Topics.ButtonNoLedState,
+        Topics.DebugCodeOutput,
+        Topics.LedButtonState,
+        Topics.Webcamera)
+    );
 builder.Services.AddSingleton<MqttSubscriber>();
 builder.Services.AddSingleton<MqttPublisher>();
-builder.Services.AddScoped<MqttController>();
 
 // Session
 builder.Services.AddScoped<User>();

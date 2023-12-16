@@ -11,9 +11,8 @@ namespace IotRemoteLaboratory.Mqtt
 	{
 		/// <summary>
 		/// Когда сообщение приходит с брокера возвращает json в виде строки или просто строку.
-		/// Принимает Topic, Message.
 		/// </summary>
-		public event Action<string, string> MessageReceivedEvent;
+		public event Action<string> MessageReceivedEvent;
 
 		public override IEnumerable<string> Topics { get; }
 		protected override IMqttClientOptions Options { get; }
@@ -55,9 +54,11 @@ namespace IotRemoteLaboratory.Mqtt
 		/// <param name="e"></param>
 		private void MessageReceived(MqttApplicationMessageReceivedEventArgs e) 
 		{
+			if (e.ApplicationMessage.Payload == null)
+				return;
 			var value = Encoding.UTF8.GetString(e.ApplicationMessage.Payload);
 			Console.WriteLine($"Topic: {e.ApplicationMessage.Topic}, Message: {value}");
-			MessageReceivedEvent?.Invoke(e.ApplicationMessage.Topic, value);
+			MessageReceivedEvent?.Invoke(value);
 		}
 	}
 }

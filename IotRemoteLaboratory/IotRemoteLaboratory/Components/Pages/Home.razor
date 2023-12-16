@@ -23,12 +23,12 @@ Welcome to your new app.
     {
         if (firstRender)
         {
-            Session.MqttController.MessageReceivedEvent += s =>
-            {
-                var pak = JsonSerializer.Deserialize<MqttPackage<bool>>(s);
-                //if (!pak.User.Equals(Session.User))
-                LedButtonState = pak.Message;
-            };
+            // Session.MqttController.MessageReceivedEvent += s =>
+            // {
+            //     //var pak = JsonSerializer.Deserialize<MqttPackage<bool>>(s);
+            //     //if (!pak.User.Equals(Session.User))
+            //     //LedButtonState = pak.Message;
+            // };
         }
         base.OnAfterRender(firstRender);
     }
@@ -38,8 +38,8 @@ Welcome to your new app.
     /// </summary>
     void LedClick()
     {
-        LedButtonState = !LedButtonState;
-        var package = new MqttPackage<bool>(Session.User, LedButtonState);
-        Session.MqttController.PublishMessage(JsonSerializer.Serialize(package));
+        //LedButtonState = !LedButtonState;
+        //var package = new MqttPackage<bool>(Session.User, LedButtonState);
+        //Session.MqttController.PublishMessage(JsonSerializer.Serialize(package));
     }
 }

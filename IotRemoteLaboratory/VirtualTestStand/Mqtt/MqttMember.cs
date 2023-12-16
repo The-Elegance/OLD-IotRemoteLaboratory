@@ -27,18 +27,13 @@ namespace IotRemoteLaboratory.Mqtt
             await Client.DisconnectAsync();
 		}
 
-		public async void SubscribeToTopic(string topic) 
+		protected async void SubscribeToTopic(string topic) 
 		{
 			var filter = new MqttTopicFilterBuilder()
 				.WithTopic(topic)
 				.Build();
 
 			await Client.SubscribeAsync(filter);
-		}
-
-		public async void UnsubscribeTopic(string topic) 
-		{
-			await Client.UnsubscribeAsync(topic);
 		}
 
 		protected abstract Task Connected(MqttClientConnectedEventArgs e);

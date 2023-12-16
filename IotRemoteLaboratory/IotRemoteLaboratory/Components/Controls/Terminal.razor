@@ -11,33 +11,64 @@
         max-height: 400px;
         display: flex;
         flex-direction: column;
-        justify-content: center;
+        justify-content: flex-start;
+        align-items: flex-start;
+    }
+
+    .terminal-block_input {
+        
+    }
+
+    .terminal-block_content {
+        height: 380px;
+        width: 100%;
+        overflow: auto;
+        flex-grow: 1;
+        font-size: 12px;
+        min-height: 18px;
+        word-break: break-all;
+    }
+
+    .terminal-message-list {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    .terminal-message_item {
+        content: ">";
+        margin-right: 0.5em;
     }
 </style>
 
 <div class="terminal-block">
-    @for (var i = 0; i < TerminalContent.Count; i++) {
-        <span>@TerminalContent[i]</span>
-    }
+    <div class="terminal-block_content">
+        <ul class="terminal-message-list">
+        @for (var i = 0; i < TerminalContent.Count; i++)
+        {
+            <li class="terminal-message_item">@TerminalContent[i]</li>
+        }
+        </ul>
+    </div>
+     <div class="terminal-block_input">
+        <input @bind-value="@inputStr" />
+        <button @onclick="SendMessage">Send</button>
+     </div>
 </div>
 
 @code {
     [Inject]
-    public Session Session { get; set; }
+    public MqttPublisher Publisher { get; set; }
 
-    public List<string> TerminalContent { get; set; } = new List<string>();
+    [Parameter]
+    public List<string> TerminalContent { get; set; }
 
-    protected override void OnAfterRender(bool firstRender)
+    private string inputStr = string.Empty;
+
+
+    private void SendMessage()
     {
-        if (firstRender)
-        {
-            Session.MqttController.MessageReceivedEvent += s =>
-            {
-                var pak = JsonSerializer.Deserialize<MqttPackage<string>>(s);
-                TerminalContent.Add(pak.Message);
-                InvokeAsync(StateHasChanged);
-            };
-        }
-        base.OnAfterRender(firstRender);
+        Publisher.PublishMessageAsync(Topics.TerminalDataTo, inputStr);
+        TerminalContent.Add(inputStr);
+        inputStr = string.Empty;
     }
 }

@@ -1,51 +1,189 @@
-﻿@using IotRemoteLaboratory.Interops
+﻿@using IotRemoteLaboratory.CodeExecutor
+@using IotRemoteLaboratory.Interops
 @using IotRemoteLaboratory.Models
 @using IotRemoteLaboratory.Mqtt
 @using System.Text.Json
+@using System.Diagnostics
+@using System.Text
+
 @rendermode InteractiveServer
 
+<div style="display: flex; flex-direction: row;">
+    <button onclick="@RunClick">Run</button>
+    <InputFile OnChange="FileUploaded" />
+    <button style="margin-left: 32px;" onclick="@DecreaseFontSize">-</button>
+    <span style="margin-left: 8px;">@CurrentFontSize</span>
+    <button style ="margin-left: 8px;" onclick="@IncreaseFontSize">+</button>
+</div>
 <div id="container" style="width:100%;height:400px;border:1px solid grey"></div>
-<textarea rows="10" cols="100">@output</textarea>
+<textarea readonly="true" rows="10" cols="100">@output</textarea>
 
 @code {
+    const int MaxFileSize = 5000 * 1024;
     private string output = string.Empty;
 
     [Inject]
-    public Session Session { get; set; } 
-    [Inject]
     public MonacoEditorInterop Monaco { get; set; }
 
+
+    private uint _currentFontSize = 14;
     [Parameter]
-    public EventCallback<string> OnIdeChanged { get; set; }
+    public uint CurrentFontSize 
+    { 
+        get => _currentFontSize; set
+        {
+            _currentFontSize = value;
+            ChangedFontSize();
+        }
+    }
+
+    private bool _isReadonly = false;
+    [Parameter]
+    public bool IsReadonly 
+    { 
+        get => _isReadonly; set
+        {
+            _isReadonly = value;
+            ChangeReadonlyMode();
+        }
+    }
+
+
+    /// <summary>
+    /// Сохраняет код с ide и запускает его.
+    /// </summary>
+    public async void RunClick()
+    {
+        var dirPath = "C:\\0";
+        var filePath = dirPath + "\\test.py";
+
+        if (!Directory.Exists(dirPath))
+            Directory.CreateDirectory(dirPath);
+
+        IsReadonly = !IsReadonly;
+
+        output = string.Empty;
+
+
+        var code = Monaco.GetCode("container");
+        await Task.Run(() =>
+        {
+            File.WriteAllText(filePath, code.Result);
+            RunCode(filePath, new PythonExecutor());
+        });
+    }
+
+
+    private async void RunCode(string filePath, ICodeExecutor codeExecutor)
+    {
+        if (!codeExecutor.IsCorrectFileExtension(filePath))
+            return;
+
+        var cmd = $"-u {filePath}";   
+
+        codeExecutor.CodeWasExecuted += (s) =>
+        {
+            output = s;
+            InvokeAsync(StateHasChanged);
+            IsReadonly = false;
+        };
+
+        await Task.Run(() => codeExecutor.ExecuteFile(filePath, cmd));
+    }
+
+    /// <summary>
+    /// Загружает пользовательский файл на компьютер
+    /// </summary>
+    /// <param name="e"></param>
+    /// <returns></returns>
+    public async Task FileUploaded(InputFileChangeEventArgs e)
+    {
+        var browserFile = e.File;
+
+        if (browserFile == null)
+            return;
+
+        var fileSize = browserFile.Size;
+        var fileType = browserFile.ContentType;
+        var fileName = browserFile.Name;
+        var lastModified = browserFile.LastModified;
+
+        try
+        {
+            var fileStream = browserFile.OpenReadStream(MaxFileSize);
+
+            var tempFileName = Path.GetTempFileName();
+            var extension = Path.GetExtension(fileName);
+            var targetFilePath = Path.ChangeExtension(tempFileName, extension);
+
+            // save temp file
+            var targetStream = new FileStream(targetFilePath, FileMode.Create);
+            // copy to target file
+            await fileStream.CopyToAsync(targetStream);
+            targetStream.Close();
+
+            // run code
+            RunCode(targetFilePath, new PythonExecutor());
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex);
+        }
+    }
+
+
+    #region Monaco Editor Methods
+
+
+    private void ChangeReadonlyMode()
+    {
+        Monaco.ReadonlyMode("container", IsReadonly);
+    }
+
+    public void ChangedFontSize()
+    {
+        Monaco.ChangeFontSize("container", CurrentFontSize);
+    }
+
+
+    #region Button Clicks
+
+
+    public void DecreaseFontSize()
+    {
+        CurrentFontSize--;
+    }
+
+    public void IncreaseFontSize()
+    {
+        CurrentFontSize++;
+    }
+
+
+    #endregion Button Clicks
+
+
+    #endregion Monaco Editor Methods
+
+
+    #region Component Methods
+
 
     protected override void OnAfterRender(bool firstRender)
     {
         base.OnAfterRender(firstRender);
         if (firstRender) 
         {
-            Monaco.Initialize("container", @"Console.WriteLine(""Hello World"");", "csharp", (s) =>
-            {
-                var pak = new MqttPackage<string>(Session.User, s);
-                var g = JsonSerializer.Serialize(pak);
-                Session.MqttController.PublishMessage(g);
-                //OnIdeChanged.InvokeAsync(s);
-            });
+            Monaco.Initialize("container", @"def main():
+    print('Hello, World')
 
-            Session.MqttController.MessageReceivedEvent += (s) => 
+if __name__ == '__main__':
+    main()", "python", (s) =>
             {
-                try
-                {
-                    var pak = JsonSerializer.Deserialize<MqttPackage<string>>(s);
-                    if (pak.User.Name != Session.User.Name)
-                    {
-                        var code = Monaco.GetCode("container");
-                        if (pak.Message != code && code != null)
-                            Monaco.SetCode("container", pak.Message);
-                    }
-                        
-                }
-                catch { }
-            };
+            });
         }
     }
+
+
+    #endregion Component Methods
 }

@@ -18,7 +18,7 @@ var simulcastStarted = {}, svcStarted = {};
 var streamsList = {};
 var selectedStream = null;
 
-document.addEventListener("DOMContentLoaded", function () {
+$(document).ready(function () {
 	// Initialize the library (all console debuggers enabled)
 	Janus.init({
 		debug: "all",

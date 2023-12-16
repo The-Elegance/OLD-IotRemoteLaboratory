@@ -1,16 +1,12 @@
-﻿using IotRemoteLaboratory.Controllers;
-
-namespace IotRemoteLaboratory.Models
+﻿namespace IotRemoteLaboratory.Models
 {
     public sealed class Session
     {
         public User User { get; }
-        public MqttController MqttController { get; }
 
-        public Session(User user, MqttController mqttController)
+        public Session(User user)
         {
             User = user;
-            MqttController = mqttController;
         }
     }
 }

@@ -59,7 +59,14 @@
         <div class="video-terminal-block">
             <div class="video-block">
                 <div class="video-block_player">
-                    <span style="color: white; font-size: 16px; font-weight:600;">В данный момент видеотрансляция неактивна.</span>
+                    @if (CameraState)
+                    {
+                        <div style="background-color:green; border-radius: 100%; width: 32px; height: 32px" />
+                    }
+                    else
+                    {
+                        <span style="color: white; font-size: 16px; font-weight:600;">В данный момент видеотрансляция неактивна.</span>
+                    }
                 </div>
 
                 <div class="video-block_buttons">
@@ -73,14 +80,11 @@
 
             </div>
 
-            <IotRemoteLaboratory.Components.Controls.Terminal/>
-@*             <div class="terminal-block">
-                <span>Консоль в данный момент не доступна.</span>
-            </div> *@
+            <IotRemoteLaboratory.Components.Controls.Terminal TerminalContent="@TerminalLines" />
         </div>
 
         <div class="ide-block">
-            <IotRemoteLaboratory.Components.Controls.MonacoEditor OnIdeChanged="@OnIdeTextChanged" />
+            <IotRemoteLaboratory.Components.Controls.MonacoEditor CurrentFontSize="@FontSize" />
         </div>
     </div>
 </div>
@@ -91,52 +95,92 @@
     public Models.Stand stand { get; set; }
     [Inject]
     public Session Session { get; set; }
+    [Inject]
+    public MqttPublisher Publisher { get; set; }
+    [Inject]
+    public MqttSubscriber Subscriber { get; set; }
 
 
     private bool ButtonState = false;
-    private string IdeText = "";
+    private bool CameraState = true;
+    private List<string> TerminalLines { get; set; } = new ();
 
-    void OnIdeTextChanged(string newValue)
-    {
-        var pak = new MqttPackage<string>(Session.User, newValue);
-        var jsonStr = JsonSerializer.Serialize(pak);
+    private uint FontSize = 14;
 
-        Session.MqttController.PublishMessage(jsonStr);    
-    }
 
     void ButtonClick(int i)
     {
-        ButtonState = !ButtonState;
-        InvokeAsync(StateHasChanged);
-
-        var pak = new MqttPackage<bool>(Session.User, ButtonState);
-
-        var s = JsonSerializer.Serialize<MqttPackage<bool>>(pak);
-        Session.MqttController.PublishMessage(s);
+        Publisher.PublishMessageAsync(Topics.LedButtonState, ButtonState ? "0" : "1");
+        FontSize += 2;
     }
 
     protected override void OnAfterRender(bool firstRender)
     {
         if (firstRender)
         {
-            Session.MqttController.MessageReceivedEvent += (s) =>
-            {
-                try
-                {
-                    var obj = JsonSerializer.Deserialize<MqttPackage<bool>>(s);
-                    if (obj.User.Name != Session.User.Name)
-                    {
-                        ButtonState = obj.Message;
-                        InvokeAsync(StateHasChanged);
-                    }
-                }
-                catch
-                {
-                }
-            };
 
+            if (!Publisher.IsConnected)
+                Publisher.Connect();
+            if (!Subscriber.IsConnected)
+                Subscriber.Connect();
 
+            Subscriber.MessageReceivedEvent += MqttMessageHandler;
         }
         base.OnAfterRender(firstRender);
     }
+
+
+    #region MqttMessage Handlers
+
+
+    private void MqttMessageHandler(string topic, string message)
+    {
+        switch (topic)
+        {
+            case Topics.TerminalDataFrom:
+                TerminalDataFromHandler(message);
+                break;
+            case Topics.TerminalDataTo:
+                break;
+            case Topics.LedButtonState:
+                LedButtonStateHandler(message);
+                break;
+            case Topics.LedState:
+                break;
+            case Topics.ButtonNoLedState:
+                break;
+            case Topics.DebugCodeOutput:
+                break;
+            case Topics.Webcamera:
+                WebcameraHandler(message);
+                break;
+            default:
+                break;
+        }
+        InvokeAsync(StateHasChanged);
+    }
+
+    private void TerminalDataFromHandler(string message)
+    {
+        TerminalLines.Add(message);
+    }
+
+    private void WebcameraHandler(string message)
+    {
+        if (message != "0" && message != "1")
+            return;
+
+        CameraState = message != "0";
+    }
+
+    private void LedButtonStateHandler(string message)
+    {
+        if (message != "0" && message != "1")
+            return;
+
+        ButtonState = message != "0";
+    }
+
+
+    #endregion MqttMessage Handlers
 }
