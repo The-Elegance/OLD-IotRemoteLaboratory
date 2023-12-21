@@ -111,7 +111,6 @@
     void ButtonClick(int i)
     {
         Publisher.PublishMessageAsync(Topics.LedButtonState, ButtonState ? "0" : "1");
-        FontSize += 2;
     }
 
     protected override void OnAfterRender(bool firstRender)
@@ -141,6 +140,8 @@
                 TerminalDataFromHandler(message);
                 break;
             case Topics.TerminalDataTo:
+                // answer
+                TerminalDataFromHandler(message);
                 break;
             case Topics.LedButtonState:
                 LedButtonStateHandler(message);

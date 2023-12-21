@@ -68,7 +68,7 @@
     private void SendMessage()
     {
         Publisher.PublishMessageAsync(Topics.TerminalDataTo, inputStr);
-        TerminalContent.Add(inputStr);
+        // чистим поле ввода.
         inputStr = string.Empty;
     }
 }
