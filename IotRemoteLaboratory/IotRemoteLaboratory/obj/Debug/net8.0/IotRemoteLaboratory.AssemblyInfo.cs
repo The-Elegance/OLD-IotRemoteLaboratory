@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("IotRemoteLaboratory")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0fc6de1f8f748c29e460fcc4eec1bec3c6b74f4c")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0cee2fe3a92d3154a7fd39ccca813ab0bbe6b183")]
 [assembly: System.Reflection.AssemblyProductAttribute("IotRemoteLaboratory")]
 [assembly: System.Reflection.AssemblyTitleAttribute("IotRemoteLaboratory")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

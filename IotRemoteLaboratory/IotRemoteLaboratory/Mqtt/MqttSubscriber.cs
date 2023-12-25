@@ -55,7 +55,11 @@ namespace IotRemoteLaboratory.Mqtt
 		/// <param name="e"></param>
 		private void MessageReceived(MqttApplicationMessageReceivedEventArgs e) 
 		{
-			var value = Encoding.UTF8.GetString(e.ApplicationMessage.Payload);
+			var msg = e.ApplicationMessage.Payload;
+
+			msg = msg ?? new byte[0];
+
+			var value = Encoding.UTF8.GetString(msg);
 			Console.WriteLine($"Topic: {e.ApplicationMessage.Topic}, Message: {value}");
 			MessageReceivedEvent?.Invoke(e.ApplicationMessage.Topic, value);
 		}

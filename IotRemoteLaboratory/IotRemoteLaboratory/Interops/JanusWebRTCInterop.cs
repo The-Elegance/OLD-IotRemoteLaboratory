@@ -22,9 +22,9 @@ namespace IotRemoteLaboratory.Interops
         #region Public Methods
 
 
-        public void InitializeJanus()
+        public async Task InitializeJanus()
         {
-            _jsRuntime.InvokeVoidAsync("janus.initialize");
+            await _jsRuntime.InvokeVoidAsync("startJanusStreamModule");
         }
 
         public void StartVideoStreaming()
