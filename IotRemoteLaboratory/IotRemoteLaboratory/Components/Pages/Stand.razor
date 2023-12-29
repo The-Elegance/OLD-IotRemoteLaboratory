@@ -55,49 +55,7 @@
 </style>
 
 
-<div class="main-block">
-    <div>
-        <div class="video-terminal-block">
-            <div class="video-block">
-                <div class="video-block_player">
-                    <button @onclick=StartStream>Start</button>
-                    <button @onclick=StopStream>Stop</button>
-
-                    <div class="container" id="streams">
-
-                        <div class="row hide" id="info">
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <h3 class="panel-title"><i class="fa fa-info-circle"></i></h3>
-                                </div>
-                                <div class="panel-body">
-                                    <pre id="metadata" style="word-break: break-word;"></pre>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6" id="videos">
-                        </div>
-                    </div>
-                    </div>
-
-                <div class="video-block_buttons">
-@*                     @for (int i = 0; i < stand.Buttons.Count; i++)
-                    {
-                        <IotRemoteLaboratory.Components.Controls.LEDlightButton Id="@i" OnClick="@ButtonClick" Content="@stand.Buttons[i].Content" State="@stand.Buttons[i].IsActive" />
-                    } *@
-                    <IotRemoteLaboratory.Components.Controls.LEDlightButton OnClick="@ButtonClick" State="@ButtonState" />
-                </div>
-
-
-            </div>
-
-            <IotRemoteLaboratory.Components.Controls.Terminal TerminalContent="@TerminalLines" />
-        </div>
-
-        <div class="ide-block">
-            <IotRemoteLaboratory.Components.Controls.MonacoEditor CurrentFontSize="@FontSize" />
-        </div>
-    </div>
+<div>
 </div>
 
 
@@ -115,17 +73,7 @@
 
     // выбор скорость обмена данными (combobox);
 
-    void StartStream()
-    {
-        Janus.StartVideoStreaming();
-    }
-
-    void StopStream()
-    {
-        Janus.StopVideoStreaming();
-    }
-
-    private bool ButtonState = false;
+    private bool ButtonState;
     private bool CameraState = true;
     private List<string> TerminalLines { get; set; } = new ();
 
@@ -134,7 +82,7 @@
 
     void ButtonClick(int i)
     {
-        Publisher.PublishMessageAsync(Topics.LedButtonState, ButtonState ? "0" : "1");
+        Publisher.PublishMessageAsync(Topics.LedButtonState, false ? "0" : "1");
     }
 
     protected override void OnAfterRender(bool firstRender)

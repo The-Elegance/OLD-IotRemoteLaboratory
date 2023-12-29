@@ -1,9 +1,19 @@
 {
   "version": 2,
-  "dgSpecHash": "3m8undviYpn6fPD0WdGLywMSBaYi7y6nB7/dcljnsHHKJmJ+ERd0RwDrccp3LxMT22M5Tvf7FYWIHwhrQkOMGw==",
+  "dgSpecHash": "z7gu8UAWE84fBox4BrWqYZuT8gzeeIA/zTCGGCtfTOUacR2L5KFgD0mw2zcSAZrk91IWsl3O+gkNDDLTfutR1A==",
   "success": true,
   "projectFilePath": "N:\\IotRemoteLaboratory\\IotRemoteLaboratory\\IotRemoteLaboratory\\IotRemoteLaboratory.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\HelJo\\.nuget\\packages\\aspnetcore.sasscompiler\\1.69.5\\aspnetcore.sasscompiler.1.69.5.nupkg.sha512",
+    "C:\\Users\\HelJo\\.nuget\\packages\\microsoft.extensions.configuration\\3.1.0\\microsoft.extensions.configuration.3.1.0.nupkg.sha512",
+    "C:\\Users\\HelJo\\.nuget\\packages\\microsoft.extensions.configuration.abstractions\\3.1.0\\microsoft.extensions.configuration.abstractions.3.1.0.nupkg.sha512",
+    "C:\\Users\\HelJo\\.nuget\\packages\\microsoft.extensions.configuration.binder\\3.1.0\\microsoft.extensions.configuration.binder.3.1.0.nupkg.sha512",
+    "C:\\Users\\HelJo\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\3.1.0\\microsoft.extensions.dependencyinjection.abstractions.3.1.0.nupkg.sha512",
+    "C:\\Users\\HelJo\\.nuget\\packages\\microsoft.extensions.fileproviders.abstractions\\3.1.0\\microsoft.extensions.fileproviders.abstractions.3.1.0.nupkg.sha512",
+    "C:\\Users\\HelJo\\.nuget\\packages\\microsoft.extensions.hosting.abstractions\\3.1.0\\microsoft.extensions.hosting.abstractions.3.1.0.nupkg.sha512",
+    "C:\\Users\\HelJo\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\3.1.0\\microsoft.extensions.logging.abstractions.3.1.0.nupkg.sha512",
+    "C:\\Users\\HelJo\\.nuget\\packages\\microsoft.extensions.options\\3.1.0\\microsoft.extensions.options.3.1.0.nupkg.sha512",
+    "C:\\Users\\HelJo\\.nuget\\packages\\microsoft.extensions.primitives\\3.1.0\\microsoft.extensions.primitives.3.1.0.nupkg.sha512",
     "C:\\Users\\HelJo\\.nuget\\packages\\mqttnet\\3.1.2\\mqttnet.3.1.2.nupkg.sha512"
   ],
   "logs": []

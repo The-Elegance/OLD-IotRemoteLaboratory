@@ -5,7 +5,7 @@ VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IotRemoteLaboratory", "IotRemoteLaboratory\IotRemoteLaboratory.csproj", "{BA97639D-88B5-44D3-BAE9-13D5BE00A7B4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VirtualTestStand", "VirtualTestStand\VirtualTestStand.csproj", "{75B0B4DC-3F3D-40F7-A925-B72A9295588D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VirtualTestStand", "VirtualTestStand\VirtualTestStand.csproj", "{75B0B4DC-3F3D-40F7-A925-B72A9295588D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

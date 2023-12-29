@@ -7,52 +7,24 @@
 
 <style>
     .terminal-block {
-        height: 400px;
-        max-height: 400px;
         display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        align-items: flex-start;
-    }
-
-    .terminal-block_input {
-        
+        width: 544px;
+        height: 437px;
+        padding: 8px;
     }
 
     .terminal-block_content {
-        height: 380px;
-        width: 100%;
-        overflow: auto;
-        flex-grow: 1;
-        font-size: 12px;
-        min-height: 18px;
-        word-break: break-all;
+        flex: 0 1;
     }
 
-    .terminal-message-list {
-        list-style-type: none;
-        padding: 0;
+    .terminal-block_input {
+        flex: 0 2;
     }
 
-    .terminal-message_item {
-        content: ">";
-        margin-right: 0.5em;
-    }
 </style>
 
 <div class="terminal-block">
-    <div class="terminal-block_content">
-        <ul class="terminal-message-list">
-        @for (var i = 0; i < TerminalContent.Count; i++)
-        {
-            <li class="terminal-message_item">@TerminalContent[i]</li>
-        }
-        </ul>
-    </div>
-     <div class="terminal-block_input">
-        <input @bind-value="@inputStr" />
-        <button @onclick="SendMessage">Send</button>
-     </div>
+
 </div>
 
 @code {

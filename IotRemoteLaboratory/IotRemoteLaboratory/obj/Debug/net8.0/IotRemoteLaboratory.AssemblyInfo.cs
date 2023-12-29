@@ -11,10 +11,13 @@
 using System;
 using System.Reflection;
 
+[assembly: AspNetCore.SassCompiler.SassCompilerAttribute("C:\\Users\\HelJo\\.nuget\\packages\\aspnetcore.sasscompiler\\1.69.5\\build\\..\\runtimes\\w" +
+    "in-x64\\src\\dart.exe", "C:\\Users\\HelJo\\.nuget\\packages\\aspnetcore.sasscompiler\\1.69.5\\build\\..\\runtimes\\w" +
+    "in-x64\\src\\sass.snapshot")]
 [assembly: System.Reflection.AssemblyCompanyAttribute("IotRemoteLaboratory")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0cee2fe3a92d3154a7fd39ccca813ab0bbe6b183")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5605adc9d89d0955bfdc4d060c3faf2751f804cb")]
 [assembly: System.Reflection.AssemblyProductAttribute("IotRemoteLaboratory")]
 [assembly: System.Reflection.AssemblyTitleAttribute("IotRemoteLaboratory")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

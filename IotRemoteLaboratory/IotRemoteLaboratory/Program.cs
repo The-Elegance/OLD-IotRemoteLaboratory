@@ -35,6 +35,7 @@ builder.Services.AddScoped<Session>();
 // Interop Init
 builder.Services.AddScoped<ConsoleWrapper>();
 builder.Services.AddScoped<MonacoEditorInterop>();
+builder.Services.AddScoped<JanusWebRTCInterop>();
 
 //Stand
 builder.Services.AddSingleton<Stand>();

@@ -30,6 +30,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xDb250cm9sc1xNb25hY29FZGl0b3IucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
+[N:/IotRemoteLaboratory/IotRemoteLaboratory/IotRemoteLaboratory/Components/Controls/StreamFrame.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xDb250cm9sc1xTdHJlYW1GcmFtZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
 [N:/IotRemoteLaboratory/IotRemoteLaboratory/IotRemoteLaboratory/Components/Controls/Terminal.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xDb250cm9sc1xUZXJtaW5hbC5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 

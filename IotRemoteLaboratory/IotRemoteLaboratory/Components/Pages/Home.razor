@@ -10,36 +10,3 @@
 <h1>Hello, world!</h1>
 
 Welcome to your new app.
-
-<IotRemoteLaboratory.Components.Controls.LEDlightButton State="@LedButtonState" OnClick="@LedClick" />
-
-@code {
-    private bool LedButtonState;
-
-    [Inject]
-    public Session Session { get; set; }
-
-    protected override void OnAfterRender(bool firstRender)
-    {
-        if (firstRender)
-        {
-            // Session.MqttController.MessageReceivedEvent += s =>
-            // {
-            //     //var pak = JsonSerializer.Deserialize<MqttPackage<bool>>(s);
-            //     //if (!pak.User.Equals(Session.User))
-            //     //LedButtonState = pak.Message;
-            // };
-        }
-        base.OnAfterRender(firstRender);
-    }
-
-    /// <summary>
-    /// Обрабатываем клик по кнопке
-    /// </summary>
-    void LedClick()
-    {
-        //LedButtonState = !LedButtonState;
-        //var package = new MqttPackage<bool>(Session.User, LedButtonState);
-        //Session.MqttController.PublishMessage(JsonSerializer.Serialize(package));
-    }
-}

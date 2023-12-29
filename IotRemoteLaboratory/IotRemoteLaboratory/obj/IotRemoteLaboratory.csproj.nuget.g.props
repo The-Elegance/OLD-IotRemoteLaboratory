@@ -13,4 +13,7 @@
     <SourceRoot Include="C:\Users\HelJo\.nuget\packages\" />
     <SourceRoot Include="C:\Program Files (x86)\Microsoft Visual Studio\Shared\NuGetPackages\" />
   </ItemGroup>
+  <ImportGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
+    <Import Project="$(NuGetPackageRoot)aspnetcore.sasscompiler\1.69.5\build\AspNetCore.SassCompiler.props" Condition="Exists('$(NuGetPackageRoot)aspnetcore.sasscompiler\1.69.5\build\AspNetCore.SassCompiler.props')" />
+  </ImportGroup>
 </Project>

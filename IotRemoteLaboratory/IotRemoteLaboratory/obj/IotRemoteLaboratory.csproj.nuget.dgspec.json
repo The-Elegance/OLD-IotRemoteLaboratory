@@ -45,6 +45,10 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "AspNetCore.SassCompiler": {
+              "target": "Package",
+              "version": "[1.69.5, )"
+            },
             "MQTTnet": {
               "target": "Package",
               "version": "[3.1.2, )"
