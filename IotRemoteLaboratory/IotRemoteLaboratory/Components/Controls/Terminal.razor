@@ -6,41 +6,105 @@
 @rendermode InteractiveServer
 
 <style>
-    .terminal-block {
+    .terminal {
         display: flex;
-        width: 544px;
-        height: 437px;
+        flex-direction: column;
+        height: 100%;
+    }
+
+    .terminal__content {
+        overflow: auto;
+        flex: 1 0 0;
+    }
+
+    .terminal__input {
+        margin-top: 8px;
+        flex: 0 0 32px;
+    }
+
+    .terminal__line {
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 1;
+        margin-bottom: 5px;
+    }
+
+        .terminal__line:last-child {
+            margin-bottom: 0;
+        }
+
+    .terminal-input {
         padding: 8px;
+        background: #1e1e1e;
+        display: flex;
     }
 
-    .terminal-block_content {
-        flex: 0 1;
-    }
+        .terminal-input input {
+            flex: 1 0 0;
+            font-family: var(--font-main);
+            color: #fff;
+            background: transparent;
+            border: none;
+            outline: none;
+            font-size: 14px;
+            font-weight: 400;
+        }
 
-    .terminal-block_input {
-        flex: 0 2;
-    }
+        .terminal-input button {
+            position: relative;
+            flex: 0 0 24px;
+            height: 24px;
+            background: transparent;
+            border: none;
+            outline: none;
+        }
 
+            .terminal-input button::before {
+                display: block;
+                content: '';
+                position: absolute;
+                top: 50%;
+                margin-top: -5px;
+                right: 12px;
+                height: 6px;
+                width: 6px;
+                border-bottom: 2px solid var(--font-color-active);
+                border-right: 2px solid var(--font-color-active);
+                transform: rotate(135deg);
+            }
 </style>
 
-<div class="terminal-block">
+<div class="terminal">
+    <div class="terminal__content">
+        <div class="terminal__scrolled">
+            @foreach (var str in TerminalContent)
+            {
+                <div class="terminal__line">
+                    @str
+                </div>
+            }
+        </div>
+    </div>
 
+    <div class="terminal__input terminal-input">
+        <input @bind-value="@inputStr" />
+        <button @onclick="@SendMessage" />
+    </div>
 </div>
 
 @code {
-    [Inject]
-    public MqttPublisher Publisher { get; set; }
-
     [Parameter]
-    public List<string> TerminalContent { get; set; }
+    public Action<string> PublishMessage { get; set; }
+    [Parameter]
+    public List<string> TerminalContent { get; set; } = new List<string>();
 
     private string inputStr = string.Empty;
 
 
     private void SendMessage()
     {
-        Publisher.PublishMessageAsync(Topics.TerminalDataTo, inputStr);
-        // чистим поле ввода.
+        PublishMessage?.Invoke(inputStr);
         inputStr = string.Empty;
+        InvokeAsync(StateHasChanged);
     }
 }

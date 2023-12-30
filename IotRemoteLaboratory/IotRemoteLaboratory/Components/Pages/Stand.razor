@@ -1,4 +1,4 @@
-﻿@page "/"
+﻿@page "/stand"
 @using IotRemoteLaboratory.Interops
 @using IotRemoteLaboratory.Models
 @using System.Text.Json
@@ -7,55 +7,119 @@
 @rendermode InteractiveServer
 
 <style>
-    .main-block {
-        display: flex;
-        flex-direction: row;
-        width: 100vw;
-    }
-
-    .video-block {
-        display: flex;
-        flex-wrap: wrap;
-        flex-direction: row;
-    }
-
-    .video-block_player {
-        display: flex;
-        width: 60vh;
-        padding: 16px;
-        justify-content: center;
-        align-items: center;
-        background-color: #303030;
-        border-radius: 5px;
-    }
-
-    .video-block_buttons {
-        align-items: center;
-        row-gap: 8px;
-        margin-left: 32px;
+    .workflow-box {
+        height: 100%;
+        padding: 16px 8px;
         display: flex;
         flex-direction: column;
     }
 
-    .video-terminal-block {
+    .workflow-box__header {
         display: flex;
-        flex-direction: row;
-        margin-bottom: 16px;
+        margin-bottom: 8px;
     }
 
-    .terminal-block {
+
+    .workflow-box__title {
+        flex: 1 0 0;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 1;
+    }
+
+    .workflow-box__combobox {
+        flex: 0 0 200px;
+    }
+
+    .workflow-box__item {
+        margin-bottom: 10px;
+        background: #2C2C2C;
+        border: 1px solid #1E1E1E;
         padding: 16px;
-        margin-left: 64px;
+        flex: 0 0 auto;
+    }
+
+        .workflow-box__item.-stretch {
+            flex: 1 0 0;
+        }
+
+        .workflow-box__item:last-child {
+            margin-bottom: 0;
+        }
+</style>
+
+@* buttons & checkbox *@
+
+<style>
+    .stand-workflow {
         display: flex;
-        width: 60vh;
-        background: #f5f4f4;
-        border: #e6edf4 solid 1px;
-        border-radius: 3px;
+        height:100%;
+        justify-content: space-between;
+    }
+
+    .stand-workflow__left {
+        background: #333;
+        flex: 0 0 35%;
+        margin-right: 16px;
+    }
+
+    .stand-workflow__right {
+        padding: 16px 8px;
+        background: #333;
+        flex: 1 0 0;
+    }
+
+    .stream-frame {
+        height: 300px;
+        background: var(--font-color-active);
+    }
+
+    .controls-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px 32px;
+    }
+
+    .controls-list__item {
     }
 </style>
 
+<div class="stand-workflow">
+    <div class="stand-workflow__left">
+        <div class="workflow-box">
+            <div class="workflow-box__header">
+                <div class="workflow-box__title">
+                    STM32-Nucleo64-Raspberry Pi
+                </div>
 
-<div>
+                <div class="workflow-box__combobox">
+                    <IotRemoteLaboratory.Components.Controls.ComboBox />
+                </div>
+            </div>
+            <div class="workflow-box__item">
+@*                 <div class="stream-frame">
+                </div> *@
+
+                <IotRemoteLaboratory.Components.Controls.StreamFrame />
+            </div>
+
+            <div class="workflow-box__item">
+                <IotRemoteLaboratory.Components.Controls.CheckBox IsChecked="@CameraState" />
+            </div>
+
+            <div class="workflow-box__item -stretch">
+                <IotRemoteLaboratory.Components.Controls.Terminal PublishMessage="@TerminalMessagePublish" TerminalContent="@TerminalLines" />
+            </div>
+        </div>
+    </div>
+    <div class="stand-workflow__right">
+
+        <div class="workflow-box">
+            <div class="workflow-box__item -stretch">
+                <IotRemoteLaboratory.Components.Controls.MonacoEditor />
+            </div>
+        </div>
+    </div>
 </div>
 
 
@@ -74,15 +138,14 @@
     // выбор скорость обмена данными (combobox);
 
     private bool ButtonState;
-    private bool CameraState = true;
+    private bool CameraState { get; set; } = true;
     private List<string> TerminalLines { get; set; } = new ();
 
     private uint FontSize = 14;
 
-
-    void ButtonClick(int i)
+    void TerminalMessagePublish(string command)
     {
-        Publisher.PublishMessageAsync(Topics.LedButtonState, false ? "0" : "1");
+        Publisher.PublishMessageAsync(Topics.TerminalDataTo, command);
     }
 
     protected override void OnAfterRender(bool firstRender)

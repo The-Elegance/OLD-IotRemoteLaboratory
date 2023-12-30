@@ -8,30 +8,13 @@ monacoInterop.initialize = function initialize(elementId, initialCode, language,
             value: initialCode,
             domReadOnly: true,
             language: language,
-            automaticLayout: true
+            automaticLayout: true,
+            theme: "vs-dark",
+            
         });
 
         editor.onDidChangeModelContent(() => {
             dotnetHelper.invokeMethodAsync('OnCodeChanged', monacoInterop.editors[elementId].getValue());
-
-            // trying get MessageControoler
-            //const editor = monacoInterop.editors[elementId];
-            //var msgController = MessageController.get(editor);
-
-            //if (msgController && editor.hasModel())
-            //{
-            //    let message = this.editor.getOptions().get(91 /* EditorOption.readOnlyMessage */);
-            //    if (!message) {
-            //        if (this.editor.isSimpleWidget) {
-            //            message = new MarkdownString(nls.localize('editor.simple.readonly', "Kkk"));
-            //        }
-            //        else {
-            //            message = new MarkdownString(nls.localize('editor.readonly', "mmsd"));
-            //        }
-            //    }
-            //    messageController.showMessage(message, this.editor.getPosition());
-            //}
-
         });
 
         monacoInterop.editors[elementId] = editor;
@@ -43,6 +26,10 @@ monacoInterop.getCode = function getCode(elementId) {
 }
 monacoInterop.setCode = function setCode(elementId, code) {
     monacoInterop.editors[elementId].setValue(code);
+}
+
+monacoInterop.reload = function reload(elementId) {
+    monacoInterop.editors[elementId] = monacoInterop.editors[elementId];
 }
 
 monacoInterop.readonlyMode = function readonlyMode(elementId, state)

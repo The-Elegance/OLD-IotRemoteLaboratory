@@ -22,6 +22,14 @@ build_property._RazorSourceGeneratorDebug =
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xBcHAucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
+[N:/IotRemoteLaboratory/IotRemoteLaboratory/IotRemoteLaboratory/Components/Controls/CheckBox.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xDb250cm9sc1xDaGVja0JveC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[N:/IotRemoteLaboratory/IotRemoteLaboratory/IotRemoteLaboratory/Components/Controls/ComboBox.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xDb250cm9sc1xDb21ib0JveC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
 [N:/IotRemoteLaboratory/IotRemoteLaboratory/IotRemoteLaboratory/Components/Controls/LEDlightButton.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xDb250cm9sc1xMRURsaWdodEJ1dHRvbi5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 

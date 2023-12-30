@@ -22,6 +22,10 @@ namespace IotRemoteLaboratory.Interops
             _runtime.InvokeVoidAsync("monacoInterop.initialize", elementId, initialCode, language, DotNetObjectReference.Create(this));
         }
 
+        public void Reload(string elementId) 
+        {
+            _runtime.InvokeVoidAsync("monacoInterop.reload", elementId);
+        }
 
         public async ValueTask<string> GetCode(string elementId)
         {

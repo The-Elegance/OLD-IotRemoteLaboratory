@@ -5,3 +5,12 @@
     --font-color-secondary: #9E9E9E;
     --font-color-active: #BFB2FF;
 }
+
+
+body, html {
+    font-family: var(--font-main);
+    font-size: 100%;
+    line-height: 1;
+    height: 100%;
+    color: var(--font-color-main);
+}

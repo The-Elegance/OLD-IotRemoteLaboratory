@@ -1,0 +1,105 @@
+﻿<style>
+    .combobox {
+        border: 1px solid #1e1e1e;
+        border-radius: 5px;
+        background: #2c2c2c;
+        position: relative;
+        cursor: pointer;
+    }
+
+        .combobox:before {
+            display: block;
+            content: '';
+            position: absolute;
+            top: 50%;
+            margin-top: -5px;
+            right: 12px;
+            height: 6px;
+            width: 6px;
+            border-bottom: 2px solid var(--font-color-active);
+            border-right: 2px solid var(--font-color-active);
+            transform: rotate(45deg);
+        }
+
+        .combobox.-active:before {
+            transform: rotate(225deg);
+            margin-top: -2px;
+        }
+
+    .combobox__item {
+        padding: 8px 32px 8px 16px;
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 1.3;
+    }
+
+    .combobox__items {
+        display: none;
+        position: absolute;
+        top: calc(100% + 5px);
+        border: 1px solid #1e1e1e;
+        background: #2C2C2C;
+        border-radius: 5px;
+        width: 100%;
+    }
+
+        .combobox__items .combobox__item:first-child {
+            border-radius: 5px 5px 0px 0px;
+        }
+
+        .combobox__items .combobox__item:last-child {
+            border-radius: 0px 0px 5px 5px;
+        }
+
+        .combobox__items .combobox__item:hover {
+        background: #333;
+    }
+
+    .combobox.-visible .combobox__items {
+        display: block;
+    }
+
+    .combobox__header {
+    }
+</style>
+
+<div class="combobox @(IsDropDownOpen ? "-visible" : "")">
+    
+    <div class="combobox__header" @onclick="@HeaderClick">
+        <div class="combobox__item">
+            1
+        </div>
+    </div>
+
+    <div class="combobox__items">
+        <div class="combobox__item">
+            Всплывающие окна имеют широкий диапазон.
+        </div>
+        <div class="combobox__item">
+            zxc  Item
+        </div>
+        <div class="combobox__item">
+            asd Item
+        </div>
+        <div class="combobox__item">
+            321  Item
+        </div>
+        <div class="combobox__item">
+            123 Item
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public List<object> Items { get; set; }
+
+    [Parameter]
+    public bool IsDropDownOpen { get; set; }
+
+    void HeaderClick()
+    {
+        Console.WriteLine("Test");
+        IsDropDownOpen = !IsDropDownOpen;
+    }
+}
