@@ -19,11 +19,13 @@
             border-bottom: 2px solid var(--font-color-active);
             border-right: 2px solid var(--font-color-active);
             transform: rotate(45deg);
+            transition: .3s;
         }
 
-        .combobox.-active:before {
+        .combobox.-visible:before {
             transform: rotate(225deg);
             margin-top: -2px;
+            transition: .3s;
         }
 
     .combobox__item {
@@ -32,6 +34,10 @@
         font-weight: 500;
         line-height: 1.3;
     }
+
+        .combobox__item.-selected {
+            color: var(--font-color-active);
+        }
 
     .combobox__items {
         display: none;
@@ -52,54 +58,120 @@
         }
 
         .combobox__items .combobox__item:hover {
-        background: #333;
-    }
+            background: #333;
+        }
 
     .combobox.-visible .combobox__items {
         display: block;
     }
 
-    .combobox__header {
-    }
+    .combobox__header {}
 </style>
+
 
 <div class="combobox @(IsDropDownOpen ? "-visible" : "")">
     
     <div class="combobox__header" @onclick="@HeaderClick">
         <div class="combobox__item">
-            1
+            @_selectedItem?.ToString()
         </div>
     </div>
 
     <div class="combobox__items">
-        <div class="combobox__item">
-            Всплывающие окна имеют широкий диапазон.
-        </div>
-        <div class="combobox__item">
-            zxc  Item
-        </div>
-        <div class="combobox__item">
-            asd Item
-        </div>
-        <div class="combobox__item">
-            321  Item
-        </div>
-        <div class="combobox__item">
-            123 Item
-        </div>
+        @foreach (var i in Items) {
+            <div class="combobox__item @(_selectedItem == i ? "-selected" : "")" @onclick="@(e => SelectItem(i))">
+                @i?.ToString()
+            </div>
+        }
     </div>
-</div>
+</div> 
+
 
 @code {
-    [Parameter]
-    public List<object> Items { get; set; }
+    /// <summary>
+    /// Выбранные элемент
+    /// </summary>
+    private object _selectedItem;
 
+
+    #region Parameters
+
+
+    /// <summary>
+    /// Список элементов в списке.
+    /// </summary>
+    [Parameter]
+    public List<object> Items { get; set; } = new List<object>();
+    /// <summary>
+    /// Состояние выпадающего меню (открыто/закрыто)
+    /// </summary>
     [Parameter]
     public bool IsDropDownOpen { get; set; }
+    /// <summary>
+    /// Оставляет меню открытым когда пользователь выбрал элемент.
+    /// </summary>
+    [Parameter]
+    public bool IsStaysOpen { get; set; }
 
+
+    #endregion Parameters
+
+
+    #region Constructors
+
+
+    public ComboBox()
+    {
+        if (Items.Count > 0)
+            _selectedItem = Items[0];
+        else
+            _selectedItem = "Not Selected";
+    }
+
+
+    #endregion Constructors
+
+
+    #region Public & Protected Methods
+
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        base.OnAfterRender(firstRender);
+        if (firstRender)
+        {
+            _selectedItem = Items[0];
+            InvokeAsync(StateHasChanged);
+        }
+    }
+
+
+    #endregion Public & Protected Methods
+
+
+    #region Private Methods
+
+
+    /// <summary>
+    /// Открывает/Закрывает Combobox при клике на togglebutton (header).
+    /// </summary>
     void HeaderClick()
     {
-        Console.WriteLine("Test");
         IsDropDownOpen = !IsDropDownOpen;
     }
+
+    /// <summary>
+    /// Делает элемент из выпадающего списка который выбрал пользователь, выбранным. 
+    /// </summary>
+    /// <param name="item">Элемент который выбрал пользователь</param>
+    void SelectItem(object? item)
+    {
+        _selectedItem = item;
+
+        if (!IsStaysOpen)
+            IsDropDownOpen = false;
+    }
+
+
+    #endregion Private Methods
 }
