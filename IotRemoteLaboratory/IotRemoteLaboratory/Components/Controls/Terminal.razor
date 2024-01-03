@@ -77,7 +77,7 @@
 <div class="terminal">
     <div class="terminal__content">
         <div class="terminal__scrolled">
-            @foreach (var str in TerminalContent)
+            @foreach (var str in TerminalLogs)
             {
                 <div class="terminal__line">
                     @str
@@ -87,24 +87,51 @@
     </div>
 
     <div class="terminal__input terminal-input">
-        <input @bind-value="@inputStr" />
+        <input @bind-value="@_inputStr" @onkeydown="@MouseDownHandler" />
         <button @onclick="@SendMessage" />
     </div>
 </div>
 
 @code {
+    /// <summary>
+    /// Текст вводимый пользователем в консоль.
+    /// </summary>
+    private string _inputStr = string.Empty;
+
+
+    /// <summary>
+    /// Отправляет сообщение пользователя на сервер.
+    /// </summary>
     [Parameter]
     public Action<string> PublishMessage { get; set; }
+    /// <summary>
+    /// Логи консоли.
+    /// </summary>
     [Parameter]
-    public List<string> TerminalContent { get; set; } = new List<string>();
-
-    private string inputStr = string.Empty;
+    public List<string> TerminalLogs { get; set; } = new List<string>();
 
 
-    private void SendMessage()
+    #region Private Methods
+
+
+    /// <summary>
+    /// Отправляет сообщение пользователя на сервер.
+    /// </summary>
+    void SendMessage()
     {
-        PublishMessage?.Invoke(inputStr);
-        inputStr = string.Empty;
+        PublishMessage?.Invoke(_inputStr);
+        _inputStr = string.Empty;
         InvokeAsync(StateHasChanged);
     }
+
+    void MouseDownHandler(KeyboardEventArgs e)
+    {
+        if (e.Code == "Enter" || e.Code == "NumpadEnter")
+        {
+            SendMessage();
+        }
+    }
+
+
+    #endregion Private Methods
 }

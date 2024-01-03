@@ -58,15 +58,34 @@
 
 <label class="checkbox">
     <input @bind="@IsChecked" type="checkbox" @onclick="CheckboxChanged">
-    <span>asdasd</span>
+    <span>@Text</span>
 </label>
 
 @code {
+
+    #region Parameters
+
+
+    /// <summary>
+    /// Состояние checkbox.
+    /// </summary>
     [Parameter]
     public bool IsChecked { get; set; }
+    [Parameter]
+    public string Text { get; set; } = "CheckBox";
+
+
+    #endregion Parameters
+
+
+    #region Private Methods
+
 
     void CheckboxChanged(MouseEventArgs e)
     {
         IsChecked = !IsChecked;
     }
+
+
+    #endregion Private Methods
 }

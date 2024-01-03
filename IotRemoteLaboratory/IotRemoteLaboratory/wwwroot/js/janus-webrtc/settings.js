@@ -51,7 +51,11 @@
 // in the presented order. The first working server will be used for
 // the whole session.
 //
-var server = "https://janus:8089/janus";
+var server = null;
+if (window.location.protocol === 'http:')
+	server = "http://" + window.location.hostname + ":8088/janus";
+else
+	server = "https://" + window.location.hostname + ":8089/janus";
 
 // When creating a Janus object, we can also specify which STUN/TURN
 // servers we'd like to use to gather additional candidates. This is
@@ -77,6 +81,4 @@ var server = "https://janus:8089/janus";
 // By default we leave the iceServers variable empty, which again means
 // janus.js will fallback to the Google STUN server by default:
 //
-var iceServers = [{urls: "turn:stun.iot-remote-laboratory.local:5349", username: "username1", credential: "password1"}];
-
-
+var iceServers = null;

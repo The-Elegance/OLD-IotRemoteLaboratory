@@ -6,10 +6,10 @@
 
 <div class="video-block">
     <div class="video-block_player">
-        <button @onclick=StartStream>Start</button>
+        <button id="watch" @onclick=StartStream>Start</button>
         <button @onclick=StopStream>Stop</button>
 
-        <div class="container" id="streams">
+        <div class="container" id="stream">
 
             <div class="row hide" id="info">
                 <div class="panel panel-default">
@@ -29,9 +29,19 @@
 
 @code {
     private bool ButtonState = false;
-    
+
     [Inject]
     public JanusWebRTCInterop Janus { get; set; }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        base.OnAfterRender(firstRender);
+    }
+
+    async void Init()
+    {
+        await Janus.InitializeJanus();
+    }
 
     void StartStream()
     {
