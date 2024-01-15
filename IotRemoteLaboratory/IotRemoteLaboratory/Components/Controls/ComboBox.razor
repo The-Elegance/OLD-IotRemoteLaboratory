@@ -73,13 +73,13 @@
     
     <div class="combobox__header" @onclick="@HeaderClick">
         <div class="combobox__item">
-            @_selectedItem?.ToString()
+            @SelectedItem?.ToString()
         </div>
     </div>
 
     <div class="combobox__items">
         @foreach (var i in Items) {
-            <div class="combobox__item @(_selectedItem == i ? "-selected" : "")" @onclick="@(e => SelectItem(i))">
+            <div class="combobox__item @(SelectedItem == i ? "-selected" : "")" @onclick="@(e => SelectItem(i))">
                 @i?.ToString()
             </div>
         }
@@ -88,12 +88,6 @@
 
 
 @code {
-    /// <summary>
-    /// Выбранные элемент
-    /// </summary>
-    private object _selectedItem;
-
-
     #region Parameters
 
 
@@ -112,6 +106,8 @@
     /// </summary>
     [Parameter]
     public bool IsStaysOpen { get; set; }
+    [Parameter]
+    public object SelectedItem { get; set; }
 
 
     #endregion Parameters
@@ -123,9 +119,9 @@
     public ComboBox()
     {
         if (Items.Count > 0)
-            _selectedItem = Items[0];
+            SelectedItem = Items[0];
         else
-            _selectedItem = "Not Selected";
+            SelectedItem = "Not Selected";
     }
 
 
@@ -140,7 +136,7 @@
         base.OnAfterRender(firstRender);
         if (firstRender)
         {
-            _selectedItem = Items[0];
+            SelectedItem = Items[0];
             InvokeAsync(StateHasChanged);
         }
     }
@@ -166,7 +162,7 @@
     /// <param name="item">Элемент который выбрал пользователь</param>
     void SelectItem(object? item)
     {
-        _selectedItem = item;
+        SelectedItem = item;
 
         if (!IsStaysOpen)
             IsDropDownOpen = false;

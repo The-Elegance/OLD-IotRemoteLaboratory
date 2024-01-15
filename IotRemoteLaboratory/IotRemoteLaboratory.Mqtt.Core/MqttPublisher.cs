@@ -4,7 +4,7 @@ using MQTTnet.Client.Connecting;
 using MQTTnet.Client.Disconnecting;
 using MQTTnet.Client.Options;
 
-namespace IotRemoteLaboratory.Mqtt
+namespace IotRemoteLaboratory.Mqtt.Core
 {
     public sealed class MqttPublisher : MqttMember
     {

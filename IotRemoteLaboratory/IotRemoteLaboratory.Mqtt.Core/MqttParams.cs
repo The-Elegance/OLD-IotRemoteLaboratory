@@ -1,4 +1,4 @@
-﻿namespace IotRemoteLaboratory.Mqtt
+﻿namespace IotRemoteLaboratory.Mqtt.Core
 {
     public sealed class MqttParams
     {

@@ -3,9 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IotRemoteLaboratory", "IotRemoteLaboratory\IotRemoteLaboratory.csproj", "{BA97639D-88B5-44D3-BAE9-13D5BE00A7B4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IotRemoteLaboratory.UI", "IotRemoteLaboratory\IotRemoteLaboratory.UI.csproj", "{BA97639D-88B5-44D3-BAE9-13D5BE00A7B4}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VirtualTestStand", "VirtualTestStand\VirtualTestStand.csproj", "{75B0B4DC-3F3D-40F7-A925-B72A9295588D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IotRemoteLaboratory.Mqtt.Core", "IotRemoteLaboratory.Mqtt.Core\IotRemoteLaboratory.Mqtt.Core.csproj", "{D28D5FF5-352A-483F-8BF7-FD3E52BE3CFC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IotRemoteLaboratory.Core", "IotRemoteLaboratory.Core\IotRemoteLaboratory.Core.csproj", "{3A651300-1C22-4C45-BC63-6F8A70D1F34B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IotRemoteLaboratory.Json.Core", "IotRemoteLaboratory.Json.Core\IotRemoteLaboratory.Json.Core.csproj", "{92B0B6AA-24E0-443A-9D1B-82CD4BD0A07A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +27,18 @@ Global
 		{75B0B4DC-3F3D-40F7-A925-B72A9295588D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{75B0B4DC-3F3D-40F7-A925-B72A9295588D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{75B0B4DC-3F3D-40F7-A925-B72A9295588D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D28D5FF5-352A-483F-8BF7-FD3E52BE3CFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D28D5FF5-352A-483F-8BF7-FD3E52BE3CFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D28D5FF5-352A-483F-8BF7-FD3E52BE3CFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D28D5FF5-352A-483F-8BF7-FD3E52BE3CFC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A651300-1C22-4C45-BC63-6F8A70D1F34B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A651300-1C22-4C45-BC63-6F8A70D1F34B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A651300-1C22-4C45-BC63-6F8A70D1F34B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A651300-1C22-4C45-BC63-6F8A70D1F34B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{92B0B6AA-24E0-443A-9D1B-82CD4BD0A07A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{92B0B6AA-24E0-443A-9D1B-82CD4BD0A07A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{92B0B6AA-24E0-443A-9D1B-82CD4BD0A07A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{92B0B6AA-24E0-443A-9D1B-82CD4BD0A07A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

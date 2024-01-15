@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AspNetCore.SassCompiler" Version="1.69.5" />
+    <PackageReference Include="MQTTnet" Version="3.1.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\IotRemoteLaboratory.Core\IotRemoteLaboratory.Core.csproj" />
+    <ProjectReference Include="..\IotRemoteLaboratory.Json.Core\IotRemoteLaboratory.Json.Core.csproj" />
+    <ProjectReference Include="..\IotRemoteLaboratory.Mqtt.Core\IotRemoteLaboratory.Mqtt.Core.csproj" />
+  </ItemGroup>
+
+</Project>

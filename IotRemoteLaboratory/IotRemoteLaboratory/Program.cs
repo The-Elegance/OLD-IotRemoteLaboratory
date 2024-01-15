@@ -1,8 +1,10 @@
 using IotRemoteLaboratory;
-using IotRemoteLaboratory.Components;
+using IotRemoteLaboratory.Core.Interfaces;
 using IotRemoteLaboratory.Interops;
+using IotRemoteLaboratory.Json.Core;
 using IotRemoteLaboratory.Models;
-using IotRemoteLaboratory.Mqtt;
+using IotRemoteLaboratory.Mqtt.Core;
+using IotRemoteLaboratory.UI.Components;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +23,7 @@ builder.Services.AddSingleton(
         Topics.LedButtonState,
         Topics.Webcamera)
     );
+
 builder.Services.AddSingleton<MqttSubscriber>();
 builder.Services.AddSingleton<MqttPublisher>();
 
@@ -28,17 +31,13 @@ builder.Services.AddSingleton<MqttPublisher>();
 builder.Services.AddScoped<User>();
 builder.Services.AddScoped<Session>();
 
-// Session
-builder.Services.AddScoped<User>();
-builder.Services.AddScoped<Session>();
+builder.Services.AddSingleton(s =>
+    JsonTool<IEnumerable<IStand<IMcuPlatform<ILedButton>>>>.Deserialize("N:\\VirtualStand\\Data\\stands.json").First());
 
 // Interop Init
 builder.Services.AddScoped<ConsoleWrapper>();
 builder.Services.AddScoped<MonacoEditorInterop>();
 builder.Services.AddScoped<JanusWebRTCInterop>();
-
-//Stand
-builder.Services.AddSingleton<Stand>();
 
 var app = builder.Build();
 

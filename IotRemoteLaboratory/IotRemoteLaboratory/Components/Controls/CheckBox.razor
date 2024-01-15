@@ -62,7 +62,6 @@
 </label>
 
 @code {
-
     #region Parameters
 
 
@@ -72,8 +71,9 @@
     [Parameter]
     public bool IsChecked { get; set; }
     [Parameter]
-    public string Text { get; set; } = "CheckBox";
-
+    public string Text { get; set; } = string.Empty;
+    [Parameter]
+    public EventCallback<Tuple<string, bool>> StateChanged { get; set; }
 
     #endregion Parameters
 
@@ -83,7 +83,9 @@
 
     void CheckboxChanged(MouseEventArgs e)
     {
-        IsChecked = !IsChecked;
+        IsChecked = !IsChecked; 
+        StateChanged.InvokeAsync(Tuple.Create<string, bool>(Text, IsChecked));
+        InvokeAsync(StateHasChanged);
     }
 
 

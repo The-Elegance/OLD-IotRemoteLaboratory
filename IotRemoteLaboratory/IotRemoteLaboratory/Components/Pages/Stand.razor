@@ -1,9 +1,9 @@
 ﻿@page "/stand"
+@using IotRemoteLaboratory.Core.Interfaces
 @using IotRemoteLaboratory.Interops
 @using IotRemoteLaboratory.Models
-@using System.Text.Json
 @using IotRemoteLaboratory.Mqtt
-@* @page "/stand" *@
+@using IotRemoteLaboratory.Mqtt.Core
 @rendermode InteractiveServer
 
 <style>
@@ -16,6 +16,10 @@
 
     .workflow-box__header {
         display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        align-items: center;
         margin-bottom: 8px;
     }
 
@@ -53,7 +57,7 @@
 <style>
     .stand-workflow {
         display: flex;
-        height:100%;
+        height: 100%;
         justify-content: space-between;
     }
 
@@ -64,13 +68,12 @@
     }
 
     .stand-workflow__right {
-        padding: 16px 8px;
         background: #333;
         flex: 1 0 0;
     }
 
     .stream-frame {
-        height: 300px;
+        height: 200px;
         background: var(--font-color-active);
     }
 
@@ -91,8 +94,23 @@
         background: #1e1e1e;
     }
 
-    .stream-frame span {
-        color: white;
+        .stream-frame span {
+            color: white;
+        }
+
+    .workflow-box-grid {
+        display: grid;
+        grid-auto-flow: column;
+        margin-right: 16px;
+    }
+
+    .workflow-box-buttons {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .mcu__button {
+        padding: 4px;
     }
 </style>
 
@@ -101,11 +119,11 @@
         <div class="workflow-box">
             <div class="workflow-box__header">
                 <div class="workflow-box__title">
-                    STM32-Nucleo64-Raspberry Pi
+                    @stand.McuPlatform.Name
                 </div>
 
                 <div class="workflow-box__combobox">
-                    <IotRemoteLaboratory.Components.Controls.ComboBox Items="@UartList" />
+                    <IotRemoteLaboratory.UI.Components.Controls.ComboBox SelectedItem="@stand.McuPlatform.SelectedUART" Items="@UartList" />
                 </div>
             </div>
             <div class="workflow-box__item">
@@ -123,12 +141,21 @@
                 @* <IotRemoteLaboratory.Components.Controls.StreamFrame /> *@
             </div>
 
-            <div class="workflow-box__item">
-                <IotRemoteLaboratory.Components.Controls.CheckBox IsChecked="false" />
+            <div class="workflow-box__item workflow-box-grid">
+                
+                    @foreach (var buttonsRow in stand.McuPlatform.ListRowsButtons)
+                    {
+                        <div class="workflow-box-buttons">
+                        @foreach (var button in buttonsRow)
+                        {
+                            <IotRemoteLaboratory.UI.Components.Controls.CheckBox Text="@button.Title" StateChanged="@OnButtonStateChanged" IsChecked="@button.IsActive" />
+                        }
+                        </div>
+                    }
             </div>
 
             <div class="workflow-box__item -stretch">
-                <IotRemoteLaboratory.Components.Controls.Terminal PublishMessage="@TerminalMessagePublish" TerminalLogs="@TerminalLines" />
+                <IotRemoteLaboratory.UI.Components.Controls.Terminal PublishMessage="@TerminalMessagePublish" TerminalLogs="@TerminalLines" />
             </div>
         </div>
     </div>
@@ -136,7 +163,7 @@
 
         <div class="workflow-box">
             <div class="workflow-box__item -stretch">
-                <IotRemoteLaboratory.Components.Controls.MonacoEditor />
+                <IotRemoteLaboratory.UI.Components.Controls.MonacoEditor />
             </div>
         </div>
     </div>
@@ -145,7 +172,7 @@
 
 @code {
     [Inject]
-    public Models.Stand stand { get; set; }
+    public IStand<IMcuPlatform<ILedButton>> stand { get; set; }
     [Inject]
     public Session Session { get; set; }
     [Inject]
@@ -162,10 +189,8 @@
 
     // выбор скорость обмена данными (combobox);
 
-    private bool ButtonState;
     private bool CameraState { get; set; }
-    private List<string> TerminalLines { get; set; } = new ();
-
+    private List<string> TerminalLines { get; set; } = new();
     private uint FontSize = 14;
 
     void TerminalMessagePublish(string command)
@@ -173,7 +198,12 @@
         if (command?.Length == 0)
             return;
 
-        Publisher.PublishMessageAsync(Topics.TerminalDataTo, command);
+        Publisher.PublishMessageAsync(Topics.TerminalDataTo.Replace("+", stand.Id.ToString()), command);
+    }
+
+    void OnButtonStateChanged(Tuple<string, bool> tuple)
+    {
+        Publisher.PublishMessageAsync(Topics.LedButtonState.Replace("+", stand.Id.ToString()).Replace("#", tuple.Item1), tuple.Item2 ? 1.ToString() : 0.ToString());
     }
 
     protected override void OnAfterRender(bool firstRender)
@@ -186,65 +216,46 @@
             if (!Subscriber.IsConnected)
                 Subscriber.Connect();
 
-            Subscriber.MessageReceivedEvent += MqttMessageHandler;
+            Subscriber.MessageReceivedEvent += (topic, value) =>
+            {
+                if (topic.Contains("/gpio/led/"))
+                {
+                    var buttonPort = topic.Replace("/lab/stand/0/gpio/led/", "");
+                    foreach (var buttonRow in stand.McuPlatform.ListRowsButtons)
+                    {
+                        if (buttonRow.First().Title.EndsWith("_") != buttonPort.EndsWith("_"))
+                            continue;
 
+                        foreach (var button in buttonRow)
+                        {
+                            if (button.Title == buttonPort)
+                            {
+                                if (value == "1")
+                                    button.IsActive = true;
+                                else
+                                    button.IsActive = false;
+                            }
+                        }
+                    }
+                }else if (topic.Contains("/serial/out"))
+                {
+                    TerminalLines.Add(value);
+                }
+                else if (topic.Contains("/serial/in"))
+                {
+                    TerminalLines.Add($"[Server]{value}");
+                }
+
+                InvokeAsync(StateHasChanged);
+            };
         }
+        
         base.OnAfterRender(firstRender);
     }
 
 
     #region MqttMessage Handlers
 
-
-    private void MqttMessageHandler(string topic, string message)
-    {
-        switch (topic)
-        {
-            case Topics.TerminalDataFrom:
-                TerminalDataFromHandler(message);
-                break;
-            case Topics.TerminalDataTo:
-                // answer
-                TerminalDataFromHandler(message);
-                break;
-            case Topics.LedButtonState:
-                LedButtonStateHandler(message);
-                break;
-            case Topics.LedState:
-                break;
-            case Topics.ButtonNoLedState:
-                break;
-            case Topics.DebugCodeOutput:
-                break;
-            case Topics.Webcamera:
-                WebcameraHandler(message);
-                break;
-            default:
-                break;
-        }
-        InvokeAsync(StateHasChanged);
-    }
-
-    private void TerminalDataFromHandler(string message)
-    {
-        TerminalLines.Add(message);
-    }
-
-    private void WebcameraHandler(string message)
-    {
-        if (message != "0" && message != "1")
-            return;
-
-        CameraState = message != "0";
-    }
-
-    private void LedButtonStateHandler(string message)
-    {
-        if (message != "0" && message != "1")
-            return;
-
-        ButtonState = message != "0";
-    }
 
 
     #endregion MqttMessage Handlers
